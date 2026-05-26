@@ -1,0 +1,47 @@
+# --------------- Keil 相关 ---------------
+# 编译生成的目标文件和调试信息
+*.o
+*.d
+*.crf
+*.axf
+*.hex
+*.bin
+*.map
+*.lst
+*.tra
+*.out
+*.scvd
+
+# Keil 个人配置文件（不同电脑会冲突）
+*.uvoptx
+*.uvguix*
+
+# 编译/调试文件夹
+DebugConfig/
+Listings/
+Objects/
+
+# --------------- 瑞萨 RASC/RA 芯片相关 ---------------
+# RASC 自动生成的临时文件
+ra/
+ra_cfg/
+ra_gen/
+.settings/
+RTE/
+script/
+via/
+
+# 配置生成器临时文件
+*.rasc
+*.bat
+*.txt
+ra_cfg.txt
+rasc_launcher.bat
+rasc_version.bat
+rasc_version.txt
+*.JLinkScript
+
+# --------------- 其他临时文件 ---------------
+# 系统生成的隐藏文件
+.DS_Store
+Thumbs.db
