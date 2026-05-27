@@ -34,71 +34,63 @@ void hal_entry(void)
 	float Sum = 0;   // 5次超声波采集距离的总和
 	float Mean = 0; // 取平均数使结果更准确
 	uint8_t uart_buf[50] = {0}; // 串口发送代码的存放字符串的数组
+	uint8_t k = 0; // 超声波测距次数计数变量
 	
-//	Motor_PWM_Init();//电机初始化
-//	DHT11_Read();//读取DHT11温湿度数据并校验
-//	
-//	Motor_Left_Speed(75);//左电机速度
-//	Motor_Right_Speed(75);//右电机速度
+	Motor_PWM_Init();//电机初始化
+	//DHT11_Read();//读取DHT11温湿度数据并校验
+	
+	Motor_Left_Speed(75);//左电机速度
+	Motor_Right_Speed(75);//右电机速度
 
 	UART0_Init(); // 串口初始化
 	Chao_Sheng_Bo_GPT0_Init(); // 超声波初始化
 	
+    uint16_t forward_count = 0; // 计次变量
+    const uint16_t forward_total = 100; // 总前进时长100×10ms=1秒
+	
 	while(1)
 	{
-		Ju_Li = 0;  // 每次超声波采集的距离
-		Sum = 0;   // 5次超声波采集距离的总和
-		Mean = 0; // 取平均数使结果更准确
-		for(int i = 0; i < 5 ; i++)
-		{
-			Ju_Li = HC_SR04_Measure(); // 超声波测距采集
-			// 过滤0值，确保累加有效距离
-			if(Ju_Li > 0) 
-			{
-				Sum += Ju_Li;
-			}
-			else
-			{
-				i--; // 重新采集一次
-			}
-			
-			R_BSP_SoftwareDelay(100, BSP_DELAY_UNITS_MILLISECONDS); // 50ms 一采集
-		}
-		Mean = Sum / 5;
-		sprintf((char *)uart_buf,"Ju_Li=%.2f",Mean);
-		uint16_t send_len = (uint16_t)strlen((char *)uart_buf);
-		R_SCI_UART_Write(&g_uart0_ctrl,uart_buf,send_len);
-		R_BSP_SoftwareDelay(50, BSP_DELAY_UNITS_MILLISECONDS);
 		Hong_Wai_Du_Qu();//读取红外传感器的状态
 		if(Hong_Wai_Pin == 1)//如果没有遮挡则启动电机，1为没有遮挡，0为有遮挡
 		{
 			// 前进1秒：拆分为10ms×100次，每次检测红外
-			for(int i=0; i<100; i++)
-			{
-				Hong_Wai_Du_Qu();
-				if(Hong_Wai_Pin == 0) break; // 红外有遮挡，立即停止
-				Car_Forward();
-				R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-			}
-			for(int i=0; i<92; i++)
-			{
-				Hong_Wai_Du_Qu();
-				if(Hong_Wai_Pin == 0) break; // 红外有遮挡，立即停止
-				Car_Turn_L();//小车左转
-				R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-			}
-			for(int i=0; i<70; i++)
-			{
-				Hong_Wai_Du_Qu();
-				if(Hong_Wai_Pin == 0) break; // 红外有遮挡，立即停止
-				Car_Forward();//小车前进
-				R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-			}
-			Car_Stop();//小车停止
+//			for(int i=0; i<100; i++)
+//			{
+//				Hong_Wai_Du_Qu();
+//				if(Hong_Wai_Pin == 0) break; // 红外有遮挡，立即停止
+//				Car_Forward();
+//				R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
+//			}
+			Car_Forward();
+            forward_count++;
+            // 前进满1秒后重置计数（避免一直前进）
+            if(forward_count >= forward_total)
+            {
+                forward_count = 0;
+            }
+            R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
 		}
 		else
 		{
 			Car_Stop();//小车停止
+			forward_count = 0;
+		}
+		Ju_Li = HC_SR04_Measure(); // 超声波测距采集
+		R_BSP_SoftwareDelay(90, BSP_DELAY_UNITS_MILLISECONDS);
+		// 过滤0值，确保累加有效距离
+		if(Ju_Li > 0) 
+		{
+			Sum += Ju_Li;
+			k++;
+		}
+		if(k == 5)
+		{
+			Mean = Sum / 5;
+			sprintf((char *)uart_buf,"Ju_Li=%.2f",Mean);
+			uint16_t send_len = (uint16_t)strlen((char *)uart_buf);
+			R_SCI_UART_Write(&g_uart0_ctrl,uart_buf,send_len);
+			k = 0;
+			Sum = 0;   // 5次超声波采集距离的总和
 		}
 	}
 	
