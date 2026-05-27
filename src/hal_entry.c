@@ -30,12 +30,10 @@ void hal_entry(void)
 
     /* TODO: 在此处添加你的代码 */
 	
-	uint32_t Ju_Li = 0;  // 每次超声波采集的距离
-	uint32_t Sum = 0;   // 5次超声波采集距离的总和
-	uint32_t Mean = 0; // 取平均数使结果更准确
-	uint32_t XiaoShu = 0; // 平均数数据的整数部分
-	uint32_t ZhengShu = 0; // 平均数数据的小数部分
-	uint8_t uart_buf[50] = {0};
+	float Ju_Li = 0;  // 每次超声波采集的距离
+	float Sum = 0;   // 5次超声波采集距离的总和
+	float Mean = 0; // 取平均数使结果更准确
+	uint8_t uart_buf[50] = {0}; // 串口发送代码的存放字符串的数组
 	
 //	Motor_PWM_Init();//电机初始化
 //	DHT11_Read();//读取DHT11温湿度数据并校验
@@ -46,17 +44,14 @@ void hal_entry(void)
 	UART0_Init(); // 串口初始化
 	Chao_Sheng_Bo_GPT0_Init(); // 超声波初始化
 	
-//	while(1)
-//	{
+	while(1)
+	{
 		Ju_Li = 0;  // 每次超声波采集的距离
 		Sum = 0;   // 5次超声波采集距离的总和
 		Mean = 0; // 取平均数使结果更准确
 		for(int i = 0; i < 5 ; i++)
 		{
 			Ju_Li = HC_SR04_Measure(); // 超声波测距采集
-//			sprintf((char *)uart_buf,"i=%d,Ju_Li=%d",i,Ju_Li);
-//			uint16_t send_len = (uint16_t)strlen((char *)uart_buf);
-//			R_SCI_UART_Write(&g_uart0_ctrl,uart_buf,send_len);
 			// 过滤0值，确保累加有效距离
 			if(Ju_Li > 0) 
 			{
@@ -67,48 +62,45 @@ void hal_entry(void)
 				i--; // 重新采集一次
 			}
 			
-			R_BSP_SoftwareDelay(50, BSP_DELAY_UNITS_MILLISECONDS); // 50ms一采集
+			R_BSP_SoftwareDelay(100, BSP_DELAY_UNITS_MILLISECONDS); // 50ms 一采集
 		}
 		Mean = Sum / 5;
-		ZhengShu = Mean / 100;
-		XiaoShu = Mean % 100;
-			sprintf((char *)uart_buf,"Ju_Li=%d.%d",ZhengShu,XiaoShu);
-			uint16_t send_len = (uint16_t)strlen((char *)uart_buf);
-			R_SCI_UART_Write(&g_uart0_ctrl,uart_buf,send_len);
-		//Hong_Wai_Du_Qu();//读取红外传感器的状态
-//		if(Hong_Wai_Pin == 1)//如果没有遮挡则启动电机，1为没有遮挡，0为有遮挡
-//		{
-//			// 前进1秒：拆分为10ms×100次，每次检测红外
-//			for(int i=0; i<100; i++)
-//			{
-//				Hong_Wai_Du_Qu();
-//				if(Hong_Wai_Pin == 0) break; // 红外有遮挡，立即停止
-//				Car_Forward();
-//				R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-//			}
-//			for(int i=0; i<92; i++)
-//			{
-//				Hong_Wai_Du_Qu();
-//				if(Hong_Wai_Pin == 0) break; // 红外有遮挡，立即停止
-//				Car_Turn_L();//小车左转
-//				R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-//			}
-//			for(int i=0; i<70; i++)
-//			{
-//				Hong_Wai_Du_Qu();
-//				if(Hong_Wai_Pin == 0) break; // 红外有遮挡，立即停止
-//				Car_Forward();//小车前进
-//				R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-//			}
-//			//R_BSP_SoftwareDelay(915,BSP_DELAY_UNITS_MILLISECONDS);//左转90度
-//			//R_BSP_SoftwareDelay(700,BSP_DELAY_UNITS_MILLISECONDS);//前进700毫秒
-//			Car_Stop();//小车停止
-//		}
-//		else
-//		{
-//			Car_Stop();//小车停止
-//		}
-	//}
+		sprintf((char *)uart_buf,"Ju_Li=%.2f",Mean);
+		uint16_t send_len = (uint16_t)strlen((char *)uart_buf);
+		R_SCI_UART_Write(&g_uart0_ctrl,uart_buf,send_len);
+		R_BSP_SoftwareDelay(50, BSP_DELAY_UNITS_MILLISECONDS);
+		Hong_Wai_Du_Qu();//读取红外传感器的状态
+		if(Hong_Wai_Pin == 1)//如果没有遮挡则启动电机，1为没有遮挡，0为有遮挡
+		{
+			// 前进1秒：拆分为10ms×100次，每次检测红外
+			for(int i=0; i<100; i++)
+			{
+				Hong_Wai_Du_Qu();
+				if(Hong_Wai_Pin == 0) break; // 红外有遮挡，立即停止
+				Car_Forward();
+				R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
+			}
+			for(int i=0; i<92; i++)
+			{
+				Hong_Wai_Du_Qu();
+				if(Hong_Wai_Pin == 0) break; // 红外有遮挡，立即停止
+				Car_Turn_L();//小车左转
+				R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
+			}
+			for(int i=0; i<70; i++)
+			{
+				Hong_Wai_Du_Qu();
+				if(Hong_Wai_Pin == 0) break; // 红外有遮挡，立即停止
+				Car_Forward();//小车前进
+				R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
+			}
+			Car_Stop();//小车停止
+		}
+		else
+		{
+			Car_Stop();//小车停止
+		}
+	}
 	
     /* Wake up 2nd core if this is first core and we are inside a multicore project. */
 #if (0 == _RA_CORE) && (1 == BSP_MULTICORE_PROJECT) && !BSP_TZ_NONSECURE_BUILD

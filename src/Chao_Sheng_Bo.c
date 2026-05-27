@@ -39,7 +39,7 @@ void Chao_Sheng_Bo_GPT0_Init(void) // 超声波定时器初始化
 }
 
 
-uint32_t HC_SR04_Measure(void) // 超声波测距
+float HC_SR04_Measure(void) // 超声波测距
 {
     // 重置标志
     capture_flag = 0; // 捕获完成标志 0 = 未完成 ，1 = 完成
@@ -71,10 +71,10 @@ uint32_t HC_SR04_Measure(void) // 超声波测距
     {
 		// Echo时间
 		uint32_t echo_cnt = echo_end - echo_start;  
-
-		// 公式：距离×100 (0.01cm)，纯整数，两位小数精度
-		uint32_t distance_x100 = (echo_cnt * 17) / 100;  
-		return distance_x100;
+		float time_us = echo_cnt / 100.0;
+		
+		float distance = time_us * 0.034 / 2.0;  
+		return distance;
     }
     else
     {

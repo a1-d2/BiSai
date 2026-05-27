@@ -3,6 +3,8 @@
 
 #include "hal_data.h"
 
+//R_BSP_SoftwareDelay(915,BSP_DELAY_UNITS_MILLISECONDS);//左转90度
+
 void Motor_PWM_Init(void);//电机初始化
 void Motor_Left_Speed(uint8_t Num);//左电机速度调节
 void Motor_Right_Speed(uint8_t Num);//右电机速度调节
