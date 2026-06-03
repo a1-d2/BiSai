@@ -3,14 +3,22 @@
     <rzone name="R7FA6M5BF3CFP.rzone"/>
     <partition>
         <peripheral name="PORT0.CM33" group="PORT">
+            <slot name="P000.CM33" secure="true"/>
             <slot name="P001.CM33" secure="true"/>
             <slot name="P002.CM33" secure="true"/>
             <slot name="P003.CM33" secure="true"/>
             <slot name="P004.CM33" secure="true"/>
+            <slot name="P005.CM33" secure="true"/>
+            <slot name="P006.CM33" secure="true"/>
+            <slot name="P007.CM33" secure="true"/>
+            <slot name="P008.CM33" secure="true"/>
+            <slot name="P014.CM33" secure="true"/>
+            <slot name="P015.CM33" secure="true"/>
         </peripheral>
         <peripheral name="PORT1.CM33" group="PORT">
             <slot name="P100.CM33" secure="true"/>
             <slot name="P101.CM33" secure="true"/>
+            <slot name="P102.CM33" secure="true"/>
             <slot name="P108.CM33" secure="true"/>
         </peripheral>
         <peripheral name="PORT2.CM33" group="PORT">
@@ -20,11 +28,19 @@
             <slot name="P300.CM33" secure="true"/>
         </peripheral>
         <peripheral name="PORT4.CM33" group="PORT">
+            <slot name="P400.CM33" secure="true"/>
             <slot name="P403.CM33" secure="true"/>
             <slot name="P406.CM33" secure="true"/>
             <slot name="P413.CM33" secure="true"/>
             <slot name="P414.CM33" secure="true"/>
             <slot name="P415.CM33" secure="true"/>
+        </peripheral>
+        <peripheral name="PORT5.CM33" group="PORT">
+            <slot name="P505.CM33" secure="true"/>
+        </peripheral>
+        <peripheral name="PORT6.CM33" group="PORT">
+            <slot name="P609.CM33" secure="true"/>
+            <slot name="P610.CM33" secure="true"/>
         </peripheral>
         <peripheral name="PORT7.CM33" group="PORT">
             <slot name="P708.CM33" secure="true"/>
@@ -33,6 +49,8 @@
         <peripheral name="GPT1.CM33" group="GPT" security="s"/>
         <peripheral name="GPT0.CM33" group="GPT" security="s"/>
         <peripheral name="SCI0.CM33" group="SCI" security="s"/>
+        <peripheral name="GPT2.CM33" group="GPT" security="s"/>
+        <peripheral name="ADC0.CM33" group="ADC" security="s"/>
         <peripheral name="ICU.CM33">
             <slot name="IRQ0.CM33" secure="true"/>
             <slot name="IRQ1.CM33" secure="true"/>
@@ -40,6 +58,7 @@
             <slot name="IRQ3.CM33" secure="true"/>
             <slot name="IRQ4.CM33" secure="true"/>
             <slot name="IRQ5.CM33" secure="true"/>
+            <slot name="IRQ6.CM33" secure="true"/>
         </peripheral>
     </partition>
 </azone>

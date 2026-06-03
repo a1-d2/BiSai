@@ -6,7 +6,7 @@
 uint32_t echo_start = 0;    // 上升沿：Echo开始时间
 uint32_t echo_end = 0;     // 下降沿：Echo结束时间
 volatile uint8_t capture_flag = 0; // 捕获完成标志 0=未完成 1=完成
-extern uint8_t uart_buf[50] = {0};
+//extern uint8_t uart_buf[50] = {0};
 bsp_io_level_t state;
 uint32_t capture_value;
 

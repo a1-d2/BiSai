@@ -19,7 +19,7 @@ void Motor_Right_Speed(uint8_t Num);//右电机速度调节
  */
 
 #define ENA_PIN    BSP_IO_PORT_04_PIN_03//左边电机使能引脚，注：PWM模式下此引脚接单片机PWM输出引脚
-#define IN1_PIN    BSP_IO_PORT_00_PIN_01//IN1 -> 001
+#define IN1_PIN    BSP_IO_PORT_05_PIN_05//IN1 -> 505
 #define IN2_PIN    BSP_IO_PORT_00_PIN_02//IN2 -> 002
 #define IN3_PIN    BSP_IO_PORT_00_PIN_03//IN3 -> 003
 #define IN4_PIN    BSP_IO_PORT_00_PIN_04//IN4 -> 004
@@ -59,23 +59,23 @@ void Motor_Right_Speed(uint8_t Num);//右电机速度调节
 
 //操作宏定义	
 
-#define Motor_L_Forward()   R_IOPORT_PinWrite(&g_ioport_ctrl, BSP_IO_PORT_00_PIN_01, BSP_IO_LEVEL_HIGH);  \
-							R_IOPORT_PinWrite(&g_ioport_ctrl, BSP_IO_PORT_00_PIN_02, BSP_IO_LEVEL_LOW)
+#define Motor_L_Forward()   R_IOPORT_PinWrite(&g_ioport_ctrl, IN1_PIN, BSP_IO_LEVEL_HIGH);  \
+							R_IOPORT_PinWrite(&g_ioport_ctrl, IN2_PIN, BSP_IO_LEVEL_LOW)
 							
-#define Motor_L_Backward()  R_IOPORT_PinWrite(&g_ioport_ctrl, BSP_IO_PORT_00_PIN_01, BSP_IO_LEVEL_LOW);   \
-							R_IOPORT_PinWrite(&g_ioport_ctrl, BSP_IO_PORT_00_PIN_02, BSP_IO_LEVEL_HIGH)
+#define Motor_L_Backward()  R_IOPORT_PinWrite(&g_ioport_ctrl, IN1_PIN, BSP_IO_LEVEL_LOW);   \
+							R_IOPORT_PinWrite(&g_ioport_ctrl, IN2_PIN, BSP_IO_LEVEL_HIGH)
 							
-#define Motor_L_Stop()      R_IOPORT_PinWrite(&g_ioport_ctrl, BSP_IO_PORT_00_PIN_01, BSP_IO_LEVEL_LOW);   \
-							R_IOPORT_PinWrite(&g_ioport_ctrl, BSP_IO_PORT_00_PIN_02, BSP_IO_LEVEL_LOW)
+#define Motor_L_Stop()      R_IOPORT_PinWrite(&g_ioport_ctrl, IN1_PIN, BSP_IO_LEVEL_LOW);   \
+							R_IOPORT_PinWrite(&g_ioport_ctrl, IN2_PIN, BSP_IO_LEVEL_LOW)
 
-#define Motor_R_Forward()   R_IOPORT_PinWrite(&g_ioport_ctrl, BSP_IO_PORT_00_PIN_03, BSP_IO_LEVEL_HIGH);  \
-							R_IOPORT_PinWrite(&g_ioport_ctrl, BSP_IO_PORT_00_PIN_04, BSP_IO_LEVEL_LOW)
+#define Motor_R_Forward()   R_IOPORT_PinWrite(&g_ioport_ctrl, IN3_PIN, BSP_IO_LEVEL_HIGH);  \
+							R_IOPORT_PinWrite(&g_ioport_ctrl, IN4_PIN, BSP_IO_LEVEL_LOW)
 							
-#define Motor_R_Backward()  R_IOPORT_PinWrite(&g_ioport_ctrl, BSP_IO_PORT_00_PIN_03, BSP_IO_LEVEL_LOW);   \
-							R_IOPORT_PinWrite(&g_ioport_ctrl, BSP_IO_PORT_00_PIN_04, BSP_IO_LEVEL_HIGH)
+#define Motor_R_Backward()  R_IOPORT_PinWrite(&g_ioport_ctrl, IN3_PIN, BSP_IO_LEVEL_LOW);   \
+							R_IOPORT_PinWrite(&g_ioport_ctrl, IN4_PIN, BSP_IO_LEVEL_HIGH)
 							
-#define Motor_R_Stop()      R_IOPORT_PinWrite(&g_ioport_ctrl, BSP_IO_PORT_00_PIN_03, BSP_IO_LEVEL_LOW);   \
-							R_IOPORT_PinWrite(&g_ioport_ctrl, BSP_IO_PORT_00_PIN_04, BSP_IO_LEVEL_LOW)
+#define Motor_R_Stop()      R_IOPORT_PinWrite(&g_ioport_ctrl, IN3_PIN, BSP_IO_LEVEL_LOW);   \
+							R_IOPORT_PinWrite(&g_ioport_ctrl, IN4_PIN, BSP_IO_LEVEL_LOW)
 
 #endif
 

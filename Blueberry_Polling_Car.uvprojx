@@ -314,7 +314,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>1</Optim>
+            <Optim>2</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>0</OneElfS>
@@ -436,6 +436,26 @@
               <FileName>UART.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\UART.h</FilePath>
+            </File>
+            <File>
+              <FileName>Duo_Ji.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\Duo_Ji.c</FilePath>
+            </File>
+            <File>
+              <FileName>Duo_Ji.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Duo_Ji.h</FilePath>
+            </File>
+            <File>
+              <FileName>ADC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\ADC.c</FilePath>
+            </File>
+            <File>
+              <FileName>ADC.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\ADC.h</FilePath>
             </File>
           </Files>
         </Group>
